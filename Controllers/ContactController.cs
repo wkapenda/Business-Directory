@@ -56,6 +56,14 @@ namespace BusinessDirectoryApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Surname,Email")] ContactModel contactModel)
         {
+
+            ContactModel email = _context.ContactModel.FirstOrDefault(u => u.Email.ToLower() == contactModel.Email.ToLower());
+
+            if (email != null)
+            {
+                ModelState.AddModelError("Email", "Email Already Exist!");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(contactModel);
