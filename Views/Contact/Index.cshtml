@@ -1,14 +1,15 @@
 @model IEnumerable<BusinessDirectoryApp.Models.ContactModel>
 
-@{
-    ViewData["Title"] = "Index";
-}
+@{ ViewData["Title"] = "Index"; }
 
 <h1>Contact(s)</h1>
 
 <p>
     <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
+
+@if (Model != null && Model.Any())
+{
 <table class="table">
     <thead>
         <tr>
@@ -25,23 +26,29 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td style="text-align:left;">
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td style="text-align:left;">
-                @Html.DisplayFor(modelItem => item.Surname)
-            </td>
-            <td style="text-align:left;">
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td style="text-align:right;">
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+
+        @foreach (var item in Model)
+        {
+<tr>
+    <td style="text-align:left;">
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td style="text-align:left;">
+        @Html.DisplayFor(modelItem => item.Surname)
+    </td>
+    <td style="text-align:left;">
+        @Html.DisplayFor(modelItem => item.Email)
+    </td>
+    <td style="text-align:right;">
+        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+    </td>
+</tr>
 }
-    </tbody>
 </table>
+}
+else
+{
+<div>No contact(s) found.</div>
+}
