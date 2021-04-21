@@ -11,7 +11,8 @@ namespace BusinessDirectoryApp.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Display(Name = "Client Name")]
+        [Required (ErrorMessage = "You need to provide the Client Name")]
         public string Name { get; set; }
 
         
@@ -19,6 +20,11 @@ namespace BusinessDirectoryApp.Models
         public ClientModel()
         {
 
+        }
+
+        internal static object AsNoTracking()
+        {
+            throw new NotImplementedException();
         }
     }
 }

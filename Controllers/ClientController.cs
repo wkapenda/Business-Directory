@@ -22,7 +22,12 @@ namespace BusinessDirectoryApp.Controllers
         // GET: Client
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ClientModel.ToListAsync());
+
+            var clients = from x in _context.ClientModel select x;
+
+            clients = clients.OrderBy(x => x.Name);
+
+            return View(await clients.ToListAsync());
         }
 
         // GET: Client/Details/5

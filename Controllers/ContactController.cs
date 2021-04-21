@@ -22,7 +22,12 @@ namespace BusinessDirectoryApp.Controllers
         // GET: Contact
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ContactModel.ToListAsync());
+            var contacts = from x in _context.ContactModel select x;
+
+            contacts = contacts.OrderBy(x => x.Name);
+
+            return View(await contacts.ToListAsync());
+            //return View(await _context.ContactModel.ToListAsync());
         }
 
         // GET: Contact/Details/5

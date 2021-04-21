@@ -9201,7 +9201,7 @@
       "outputPath": "/Users/wkapenda/Desktop/aspnet/BusinessDirectoryApp/BusinessDirectoryApp/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/wkapenda/.nuget/NuGet/NuGet.Config"
+        "/Users/wkapenda/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"

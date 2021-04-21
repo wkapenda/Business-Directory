@@ -8,13 +8,15 @@ namespace BusinessDirectoryApp.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Display(Name = "Name")]
+        [Required(ErrorMessage = "You need to provide the Contact Name")]
         public string Name { get; set; }
 
-        [Required]
+        [Display(Name = "Surname")]
+        [Required(ErrorMessage = "You need to provide the Contact Surname")]
         public string Surname { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "You need to provide the Email")]
         [EmailAddress]
         public string Email { get; set; }
 
