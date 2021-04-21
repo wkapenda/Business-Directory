@@ -59,7 +59,7 @@ namespace BusinessDirectoryApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] ClientModel clientModel)
+        public async Task<IActionResult> Create([Bind("Id,Name,clientCode,linkedContacts")] ClientModel clientModel)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace BusinessDirectoryApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] ClientModel clientModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,clientCode,linkedContacts")] ClientModel clientModel)
         {
             if (id != clientModel.Id)
             {

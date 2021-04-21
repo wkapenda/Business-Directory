@@ -13,7 +13,6 @@ namespace BusinessDirectoryApp.Controllers
     public class ContactController : Controller
     {
         private readonly ApplicationDbContext _context;
-
         public ContactController(ApplicationDbContext context)
         {
             _context = context;
@@ -24,7 +23,7 @@ namespace BusinessDirectoryApp.Controllers
         {
             var contacts = from x in _context.ContactModel select x;
 
-            contacts = contacts.OrderBy(x => x.Name);
+            contacts = contacts.OrderBy(x => x.Surname);
 
             return View(await contacts.ToListAsync());
             //return View(await _context.ContactModel.ToListAsync());
@@ -59,7 +58,7 @@ namespace BusinessDirectoryApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Surname,Email")] ContactModel contactModel)
+        public async Task<IActionResult> Create([Bind("Id,Name,Surname,Email,linkClients")] ContactModel contactModel)
         {
 
             ContactModel email = _context.ContactModel.FirstOrDefault(u => u.Email.ToLower() == contactModel.Email.ToLower());
@@ -99,7 +98,7 @@ namespace BusinessDirectoryApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,Email")] ContactModel contactModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,Email,linkedClients")] ContactModel contactModel)
         {
             if (id != contactModel.Id)
             {

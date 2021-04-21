@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusinessDirectoryApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210420141722_initialsetup")]
-    partial class initialsetup
+    [Migration("20210421175832_thirdsetup")]
+    partial class thirdsetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,7 +25,14 @@ namespace BusinessDirectoryApp.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("clientCode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("linkedContacts")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -39,13 +46,19 @@ namespace BusinessDirectoryApp.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Surname")
+                        .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("linkedClients")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

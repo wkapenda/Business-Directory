@@ -20,6 +20,9 @@ namespace BusinessDirectoryApp.Models
         [EmailAddress]
         public string Email { get; set; }
 
+        [Display(Name = "No. of linked clients")]
+        public int linkedClients { get; set; }
+
 
         public ContactModel()
         {

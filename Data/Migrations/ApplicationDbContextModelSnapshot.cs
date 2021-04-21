@@ -23,7 +23,14 @@ namespace BusinessDirectoryApp.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("clientCode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("linkedContacts")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -37,13 +44,19 @@ namespace BusinessDirectoryApp.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Surname")
+                        .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("linkedClients")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

@@ -2,7 +2,7 @@
 
 namespace BusinessDirectoryApp.Data.Migrations
 {
-    public partial class initialsetup : Migration
+    public partial class thirdsetup : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,9 @@ namespace BusinessDirectoryApp.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false),
+                    clientCode = table.Column<string>(nullable: true),
+                    linkedContacts = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -25,9 +27,10 @@ namespace BusinessDirectoryApp.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true),
-                    Surname = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false),
+                    Surname = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    linkedClients = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

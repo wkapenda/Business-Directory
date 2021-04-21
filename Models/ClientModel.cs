@@ -15,7 +15,13 @@ namespace BusinessDirectoryApp.Models
         [Required (ErrorMessage = "You need to provide the Client Name")]
         public string Name { get; set; }
 
-        
+        [Display(Name = "Client Code")]
+        public string clientCode { get; set; }
+
+        [Display(Name = "No. of Linked Contacts")]
+        public int linkedContacts { get; set; }
+
+
 
         public ClientModel()
         {
