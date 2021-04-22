@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BusinessDirectoryApp.Data;
 using BusinessDirectoryApp.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace BusinessDirectoryApp.Controllers
 {
@@ -61,6 +62,85 @@ namespace BusinessDirectoryApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,clientCode,linkedContacts")] ClientModel clientModel)
         {
+            // Use session for counter state management
+            if(HttpContext.Session.GetInt32("Counter") == null)
+            {
+                HttpContext.Session.SetInt32("Counter", 1);
+                HttpContext.Session.SetInt32("AlphaCounter", 0);
+            }
+            int numCounter = HttpContext.Session.GetInt32("Counter").Value;
+            int alphaCounter = HttpContext.Session.GetInt32("AlphaCounter").Value;
+
+
+
+
+            string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            string numString = numCounter.ToString();
+
+            int numLength = numString.Length;
+
+
+            // Add 0's to numerical part of client code
+            if (numLength == 1)
+            {
+                numString = "00" + numString;
+            }
+            else if (numLength == 2)
+            {
+                numString = "0" + numString;
+            }
+
+
+            string clientName = clientModel.Name.ToUpper();
+            int nullPosition = clientName.IndexOf(" ");
+
+            string acronym = "";
+
+            string[] splitName;
+
+            if(nullPosition > -1)
+            {
+                splitName = clientName.Split(" ");
+
+                foreach (string word in splitName)
+                {
+                    acronym += word[0];
+                }
+
+                if(acronym.Length >= 3)
+                {
+                    acronym = acronym.Substring(0, 3);
+                }else
+                {
+                    acronym = acronym + alphabet[alphaCounter];
+                    alphaCounter += 1;
+                }
+            }
+            else if (nullPosition == -1 & clientName.Length > 3)
+            {
+                acronym = clientName.Substring(0,3);
+
+            }else if (nullPosition == -1 & clientName.Length < 3)
+            {
+                acronym = clientName.ToString();
+                acronym = acronym + alphabet[alphaCounter];
+                alphaCounter += 1;
+            }
+
+            clientName = acronym + numString;
+
+            clientModel.clientCode = clientName;
+
+
+            
+            numCounter += 1;
+            
+            HttpContext.Session.SetInt32("Counter", numCounter);
+            HttpContext.Session.SetInt32("AlphaCounter", alphaCounter);
+
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(clientModel);

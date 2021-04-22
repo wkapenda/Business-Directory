@@ -26,6 +26,7 @@ namespace BusinessDirectoryApp.Models
         public ClientModel()
         {
 
+
         }
 
         internal static object AsNoTracking()

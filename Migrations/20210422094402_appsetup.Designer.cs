@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace BusinessDirectoryApp.Data.Migrations
+namespace BusinessDirectoryApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210421175832_thirdsetup")]
-    partial class thirdsetup
+    [Migration("20210422094402_appsetup")]
+    partial class appsetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

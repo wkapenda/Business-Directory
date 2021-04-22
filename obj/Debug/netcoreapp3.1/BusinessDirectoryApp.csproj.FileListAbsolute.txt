@@ -1,7 +1,6 @@
 /Users/wkapenda/Desktop/aspnet/BusinessDirectoryApp/BusinessDirectoryApp/bin/Debug/netcoreapp3.1/appsettings.Development.json
 /Users/wkapenda/Desktop/aspnet/BusinessDirectoryApp/BusinessDirectoryApp/bin/Debug/netcoreapp3.1/appsettings.json
 /Users/wkapenda/Desktop/aspnet/BusinessDirectoryApp/BusinessDirectoryApp/bin/Debug/netcoreapp3.1/BusinessDirectoryApp.StaticWebAssets.xml
-/Users/wkapenda/Desktop/aspnet/BusinessDirectoryApp/BusinessDirectoryApp/bin/Debug/netcoreapp3.1/app.db
 /Users/wkapenda/Desktop/aspnet/BusinessDirectoryApp/BusinessDirectoryApp/bin/Debug/netcoreapp3.1/BusinessDirectoryApp.deps.json
 /Users/wkapenda/Desktop/aspnet/BusinessDirectoryApp/BusinessDirectoryApp/bin/Debug/netcoreapp3.1/BusinessDirectoryApp.runtimeconfig.json
 /Users/wkapenda/Desktop/aspnet/BusinessDirectoryApp/BusinessDirectoryApp/bin/Debug/netcoreapp3.1/BusinessDirectoryApp.runtimeconfig.dev.json
