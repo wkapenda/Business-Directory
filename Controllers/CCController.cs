@@ -10,30 +10,23 @@ using BusinessDirectoryApp.Models;
 
 namespace BusinessDirectoryApp.Controllers
 {
-    public class ContactController : Controller
+    public class CCController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public ContactController(ApplicationDbContext context)
+
+        public CCController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Contact
+        // GET: CC
         public async Task<IActionResult> Index()
         {
-            var contacts = from x in _context.ContactModel select x;
-
-
-            //IList<ContactModel> contacts = _context.ContactModel.Include(c => c.Client).ToList();
-
-            contacts = contacts.OrderBy(x => x.Surname);
-
-
-            //return View(contacts);
-            return View(await contacts.ToListAsync());
+            var applicationDbContext = _context.ClientContact.Include(c => c.Client).Include(c => c.Contact);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Contact/Details/5
+        // GET: CC/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -41,47 +34,45 @@ namespace BusinessDirectoryApp.Controllers
                 return NotFound();
             }
 
-            var contactModel = await _context.ContactModel
-                .FirstOrDefaultAsync(m => m.ContactID == id);
-            if (contactModel == null)
+            var clientContact = await _context.ClientContact
+                .Include(c => c.Client)
+                .Include(c => c.Contact)
+                .FirstOrDefaultAsync(m => m.ClientID == id);
+            if (clientContact == null)
             {
                 return NotFound();
             }
 
-            return View(contactModel);
+            return View(clientContact);
         }
 
-        // GET: Contact/Create
+        // GET: CC/Create
         public IActionResult Create()
         {
+            ViewData["ClientID"] = new SelectList(_context.ClientModel, "ClientID", "Name");
+            ViewData["ContactID"] = new SelectList(_context.ContactModel, "ContactID", "Email");
             return View();
         }
 
-        // POST: Contact/Create
+        // POST: CC/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ContactID,Name,Surname,Email,linkClients")] ContactModel contactModel)
+        public async Task<IActionResult> Create([Bind("ClientID,ContactID")] ClientContact clientContact)
         {
-
-            ContactModel email = _context.ContactModel.FirstOrDefault(u => u.Email.ToLower() == contactModel.Email.ToLower());
-
-            if (email != null)
-            {
-                ModelState.AddModelError("Email", "Email Already Exist!");
-            }
-
             if (ModelState.IsValid)
             {
-                _context.Add(contactModel);
+                _context.Add(clientContact);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(contactModel);
+            ViewData["ClientID"] = new SelectList(_context.ClientModel, "ClientID", "Name", clientContact.ClientID);
+            ViewData["ContactID"] = new SelectList(_context.ContactModel, "ContactID", "Email", clientContact.ContactID);
+            return View(clientContact);
         }
 
-        // GET: Contact/Edit/5
+        // GET: CC/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -89,22 +80,24 @@ namespace BusinessDirectoryApp.Controllers
                 return NotFound();
             }
 
-            var contactModel = await _context.ContactModel.FindAsync(id);
-            if (contactModel == null)
+            var clientContact = await _context.ClientContact.FindAsync(id);
+            if (clientContact == null)
             {
                 return NotFound();
             }
-            return View(contactModel);
+            ViewData["ClientID"] = new SelectList(_context.ClientModel, "ClientID", "Name", clientContact.ClientID);
+            ViewData["ContactID"] = new SelectList(_context.ContactModel, "ContactID", "Email", clientContact.ContactID);
+            return View(clientContact);
         }
 
-        // POST: Contact/Edit/5
+        // POST: CC/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ContactID,Name,Surname,Email,linkClients")] ContactModel contactModel)
+        public async Task<IActionResult> Edit(int id, [Bind("ClientID,ContactID")] ClientContact clientContact)
         {
-            if (id != contactModel.ContactID)
+            if (id != clientContact.ClientID)
             {
                 return NotFound();
             }
@@ -113,12 +106,12 @@ namespace BusinessDirectoryApp.Controllers
             {
                 try
                 {
-                    _context.Update(contactModel);
+                    _context.Update(clientContact);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ContactModelExists(contactModel.ContactID))
+                    if (!ClientContactExists(clientContact.ClientID))
                     {
                         return NotFound();
                     }
@@ -129,10 +122,12 @@ namespace BusinessDirectoryApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(contactModel);
+            ViewData["ClientID"] = new SelectList(_context.ClientModel, "ClientID", "Name", clientContact.ClientID);
+            ViewData["ContactID"] = new SelectList(_context.ContactModel, "ContactID", "Email", clientContact.ContactID);
+            return View(clientContact);
         }
 
-        // GET: Contact/Delete/5
+        // GET: CC/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -140,30 +135,32 @@ namespace BusinessDirectoryApp.Controllers
                 return NotFound();
             }
 
-            var contactModel = await _context.ContactModel
-                .FirstOrDefaultAsync(m => m.ContactID == id);
-            if (contactModel == null)
+            var clientContact = await _context.ClientContact
+                .Include(c => c.Client)
+                .Include(c => c.Contact)
+                .FirstOrDefaultAsync(m => m.ClientID == id);
+            if (clientContact == null)
             {
                 return NotFound();
             }
 
-            return View(contactModel);
+            return View(clientContact);
         }
 
-        // POST: Contact/Delete/5
+        // POST: CC/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var contactModel = await _context.ContactModel.FindAsync(id);
-            _context.ContactModel.Remove(contactModel);
+            var clientContact = await _context.ClientContact.FindAsync(id);
+            _context.ClientContact.Remove(clientContact);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ContactModelExists(int id)
+        private bool ClientContactExists(int id)
         {
-            return _context.ContactModel.Any(e => e.ContactID == id);
+            return _context.ClientContact.Any(e => e.ClientID == id);
         }
     }
 }

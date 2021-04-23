@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BusinessDirectoryApp.Migrations
 {
-    public partial class appsetup : Migration
+    public partial class newsetup : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,7 +50,7 @@ namespace BusinessDirectoryApp.Migrations
                 name: "ClientModel",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    ClientID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: false),
                     clientCode = table.Column<string>(nullable: true),
@@ -58,14 +58,14 @@ namespace BusinessDirectoryApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClientModel", x => x.Id);
+                    table.PrimaryKey("PK_ClientModel", x => x.ClientID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ContactModel",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    ContactID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: false),
                     Surname = table.Column<string>(nullable: false),
@@ -74,7 +74,7 @@ namespace BusinessDirectoryApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContactModel", x => x.Id);
+                    table.PrimaryKey("PK_ContactModel", x => x.ContactID);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,6 +183,30 @@ namespace BusinessDirectoryApp.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ClientContact",
+                columns: table => new
+                {
+                    ClientID = table.Column<int>(nullable: false),
+                    ContactID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientContact", x => new { x.ClientID, x.ContactID });
+                    table.ForeignKey(
+                        name: "FK_ClientContact_ClientModel_ClientID",
+                        column: x => x.ClientID,
+                        principalTable: "ClientModel",
+                        principalColumn: "ClientID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClientContact_ContactModel_ContactID",
+                        column: x => x.ContactID,
+                        principalTable: "ContactModel",
+                        principalColumn: "ContactID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -219,6 +243,11 @@ namespace BusinessDirectoryApp.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientContact_ContactID",
+                table: "ClientContact",
+                column: "ContactID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -239,16 +268,19 @@ namespace BusinessDirectoryApp.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ClientModel");
-
-            migrationBuilder.DropTable(
-                name: "ContactModel");
+                name: "ClientContact");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "ClientModel");
+
+            migrationBuilder.DropTable(
+                name: "ContactModel");
         }
     }
 }

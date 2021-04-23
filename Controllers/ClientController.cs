@@ -29,6 +29,8 @@ namespace BusinessDirectoryApp.Controllers
             clients = clients.OrderBy(x => x.Name);
 
             return View(await clients.ToListAsync());
+
+            //return View();
         }
 
         // GET: Client/Details/5
@@ -40,7 +42,7 @@ namespace BusinessDirectoryApp.Controllers
             }
 
             var clientModel = await _context.ClientModel
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.ClientID == id);
             if (clientModel == null)
             {
                 return NotFound();
@@ -60,7 +62,7 @@ namespace BusinessDirectoryApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,clientCode,linkedContacts")] ClientModel clientModel)
+        public async Task<IActionResult> Create([Bind("ContactID,Name,clientCode,linkedContacts,Contacts")] ClientModel clientModel)
         {
             // Use session for counter state management
             if(HttpContext.Session.GetInt32("Counter") == null)
@@ -171,9 +173,9 @@ namespace BusinessDirectoryApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,clientCode,linkedContacts")] ClientModel clientModel)
+        public async Task<IActionResult> Edit(int id, [Bind("ClientID,Name,clientCode,linkedContacts,Contacts")] ClientModel clientModel)
         {
-            if (id != clientModel.Id)
+            if (id != clientModel.ClientID)
             {
                 return NotFound();
             }
@@ -187,7 +189,7 @@ namespace BusinessDirectoryApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClientModelExists(clientModel.Id))
+                    if (!ClientModelExists(clientModel.ClientID))
                     {
                         return NotFound();
                     }
@@ -210,7 +212,7 @@ namespace BusinessDirectoryApp.Controllers
             }
 
             var clientModel = await _context.ClientModel
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.ClientID == id);
             if (clientModel == null)
             {
                 return NotFound();
@@ -232,7 +234,7 @@ namespace BusinessDirectoryApp.Controllers
 
         private bool ClientModelExists(int id)
         {
-            return _context.ClientModel.Any(e => e.Id == id);
+            return _context.ClientModel.Any(e => e.ClientID == id);
         }
     }
 }

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusinessDirectoryApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210422094402_appsetup")]
-    partial class appsetup
+    [Migration("20210423090902_newsetup")]
+    partial class newsetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -18,9 +18,24 @@ namespace BusinessDirectoryApp.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.14");
 
+            modelBuilder.Entity("BusinessDirectoryApp.Models.ClientContact", b =>
+                {
+                    b.Property<int>("ClientID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ContactID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ClientID", "ContactID");
+
+                    b.HasIndex("ContactID");
+
+                    b.ToTable("ClientContact");
+                });
+
             modelBuilder.Entity("BusinessDirectoryApp.Models.ClientModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ClientID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -34,14 +49,14 @@ namespace BusinessDirectoryApp.Migrations
                     b.Property<int>("linkedContacts")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
+                    b.HasKey("ClientID");
 
                     b.ToTable("ClientModel");
                 });
 
             modelBuilder.Entity("BusinessDirectoryApp.Models.ContactModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ContactID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -60,7 +75,7 @@ namespace BusinessDirectoryApp.Migrations
                     b.Property<int>("linkedClients")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
+                    b.HasKey("ContactID");
 
                     b.ToTable("ContactModel");
                 });
@@ -259,6 +274,21 @@ namespace BusinessDirectoryApp.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("BusinessDirectoryApp.Models.ClientContact", b =>
+                {
+                    b.HasOne("BusinessDirectoryApp.Models.ClientModel", "Client")
+                        .WithMany("ClientContact")
+                        .HasForeignKey("ClientID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BusinessDirectoryApp.Models.ContactModel", "Contact")
+                        .WithMany("ClientContact")
+                        .HasForeignKey("ContactID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
