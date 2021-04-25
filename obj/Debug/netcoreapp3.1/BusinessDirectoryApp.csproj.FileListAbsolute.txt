@@ -199,3 +199,4 @@
 /Users/wkapenda/Desktop/aspnet/BusinessDirectoryApp/BusinessDirectoryApp/obj/Debug/netcoreapp3.1/Razor/Views/CC/Details.cshtml.g.cs
 /Users/wkapenda/Desktop/aspnet/BusinessDirectoryApp/BusinessDirectoryApp/obj/Debug/netcoreapp3.1/Razor/Views/CC/Edit.cshtml.g.cs
 /Users/wkapenda/Desktop/aspnet/BusinessDirectoryApp/BusinessDirectoryApp/obj/Debug/netcoreapp3.1/Razor/Views/CC/Index.cshtml.g.cs
+/Users/wkapenda/Desktop/aspnet/BusinessDirectoryApp/BusinessDirectoryApp/bin/Debug/netcoreapp3.1/mono_crash.11a6748113.1.json
