@@ -73,14 +73,18 @@ namespace BusinessDirectoryApp.Controllers
         }
 
         // GET: CC/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id1,int? id2)
         {
-            if (id == null)
+            if (id1 == null)
+            {
+                return NotFound();
+            }
+            if (id2 == null)
             {
                 return NotFound();
             }
 
-            var clientContact = await _context.ClientContact.FindAsync(id);
+            var clientContact = await _context.ClientContact.FindAsync(id1, id2);
             if (clientContact == null)
             {
                 return NotFound();
@@ -95,9 +99,14 @@ namespace BusinessDirectoryApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClientID,ContactID")] ClientContact clientContact)
+        public async Task<IActionResult> Edit(int id1, int id2, [Bind("ClientID,ContactID")] ClientContact clientContact)
         {
-            if (id != clientContact.ClientID)
+            if (id1 != clientContact.ContactID)
+            {
+                return NotFound();
+            }
+
+            if (id2 != clientContact.ClientID)
             {
                 return NotFound();
             }
@@ -139,6 +148,9 @@ namespace BusinessDirectoryApp.Controllers
                 .Include(c => c.Client)
                 .Include(c => c.Contact)
                 .FirstOrDefaultAsync(m => m.ClientID == id);
+
+
+
             if (clientContact == null)
             {
                 return NotFound();
@@ -152,7 +164,12 @@ namespace BusinessDirectoryApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var clientContact = await _context.ClientContact.FindAsync(id);
+
+            //var clientContact = await _context.ClientContact.FindAsync(id);
+            //_context.ClientContact.Remove(clientContact);
+            var clientContact = await _context.ClientContact.Include(a => a.Client)
+               .Where(a => a.ClientID == id)
+                .FirstOrDefaultAsync();
             _context.ClientContact.Remove(clientContact);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -160,6 +177,7 @@ namespace BusinessDirectoryApp.Controllers
 
         private bool ClientContactExists(int id)
         {
+
             return _context.ClientContact.Any(e => e.ClientID == id);
         }
     }
