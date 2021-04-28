@@ -2,7 +2,7 @@
 
 @{ ViewData["Title"] = "Index"; }
 
-<h1>Contact(s)</h1>
+<h1 class="PageTitle">Contact(s)</h1>
 
 <p>
     <a class="btn btn-primary" asp-action="Create">Create New</a>
@@ -47,7 +47,6 @@
             </td>
             <td style="text-align:right;">
                 <a asp-action="Edit" asp-route-id="@item.ContactID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ContactID">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ContactID">Delete</a>
             </td>
         </tr>

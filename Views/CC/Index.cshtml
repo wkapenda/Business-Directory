@@ -1,14 +1,14 @@
 @model IEnumerable<BusinessDirectoryApp.Models.ClientContact>
 
-@{
-    ViewData["Title"] = "Index";
-}
+@{ ViewData["Title"] = "Index"; }
 
-<h1>Link Client <=> Contact</h1>
+<h1 class="PageTitle">Link Client <=> Contact</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
+@if (Model != null && Model.Any())
+{
 <table class="table">
     <thead>
         <tr>
@@ -22,18 +22,22 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td style="text-align:left;">
-                @Html.DisplayFor(modelItem => item.Client.Name)
-            </td>
-            <td style="text-align:left;">
-                @Html.DisplayFor(modelItem => item.Contact.Email)
-            </td>
-            <td type="button" class ="btn btn-secondary" style="text-align:left;">
-                @Html.ActionLink("Unlink", "Delete", new { id = item.ClientID})
-            </td>
-        </tr>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td style="text-align:left;">
+        @Html.DisplayFor(modelItem => item.Client.Name)
+    </td>
+    <td style="text-align:left;">
+        @Html.DisplayFor(modelItem => item.Contact.Email)
+    </td>
+    <td style="text-align:left;">
+        @Html.ActionLink("Unlink", "Delete", new { id = item.ClientID })
+    </td>
+</tr>
 }
     </tbody>
-</table>
+</table>}
+else
+{
+<div>No client/contact links found.</div>}
